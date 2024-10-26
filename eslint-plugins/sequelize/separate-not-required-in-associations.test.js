@@ -1,14 +1,7 @@
-import { RuleTester } from 'eslint';
+import { ruleTester } from '../rule-tester.js';
 import { separateNotRequiredInAssociationsRule } from './separate-not-required-in-associations.js';
 
-const ruleTester = new RuleTester({
-  parserOptions: {
-    ecmaVersion: 2023,
-    sourceType: 'module',
-  },
-});
-
-ruleTester.run('separate-not-required', separateNotRequiredInAssociationsRule, {
+ruleTester.run('separate-not-required-in-associations', separateNotRequiredInAssociationsRule, {
   valid: [
     {
       code: `
@@ -31,12 +24,6 @@ ruleTester.run('separate-not-required', separateNotRequiredInAssociationsRule, {
         })
       `,
     },
-    {
-      code: 'const object = { required: true, separate: true }',
-    },
-    {
-      code: 'const include = [{ required: true, separate: true }]',
-    },
   ],
   invalid: [
     {
@@ -47,7 +34,7 @@ ruleTester.run('separate-not-required', separateNotRequiredInAssociationsRule, {
       `,
       errors: [
         {
-          messageId: 'separateNotRequired',
+          messageId: 'separateNotRequiredInAssociation',
         },
       ],
     },

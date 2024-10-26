@@ -1,7 +1,23 @@
 {
+  "name": "eslint-rules",
+  "version": "1.0.0",
+  "description": "Repository of useful ESLint rules and configurations",
+  "keywords": [
+    "eslint",
+    "sequelize",
+    "typescript"
+  ],
+  "author": "Vitaly Rudenko <maurice.dederick@gmail.com>",
+  "license": "MIT",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "./test.sh"
+  },
   "dependencies": {
     "@eslint/eslintrc": "^3.1.0",
     "@eslint/js": "^9.13.0",
+    "@typescript-eslint/rule-tester": "^8.11.0",
     "eslint": "^8.57.1",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-import": "^2.31.0",

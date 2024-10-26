@@ -32,7 +32,7 @@ export const noLimitOrOrderInAssociationsRule = {
         const hasPaginationOrOrder = node.properties.some(p => p.type === 'Property' && p.key.type === 'Identifier' && ['limit', 'offset', 'order'].includes(p.key.name));
         if (!hasPaginationOrOrder) return;
 
-        context.report({ node, messageId: 'noPaginationOrOrderInAssociation' });
+        context.report({ node, messageId: 'noLimitOrOrderInAssociation' });
       },
     };
   },

@@ -4,6 +4,7 @@ import eslint from '@eslint/js';
 import * as importPlugin from 'eslint-plugin-import';
 import tseslint from 'typescript-eslint';
 import prettier from 'eslint-config-prettier';
+import filenameRulesPlugin from 'eslint-plugin-filename-rules';
 import { eslintSequelizePlugin } from './eslint-plugins/sequelize/index.js';
 
 const noRestrictedImportsConfig = {
@@ -16,9 +17,10 @@ const noRestrictedImportsConfig = {
     },
     // @CreatedAt, @UpdatedAt and @DeletedAt are confusing and produce unexpected column names
     // @Comment and @Unique are redundant and can be achieved with @Column
+    // DataType is just an alias to DataTypes and may cause confusion if used
     {
       name: 'sequelize-typescript',
-      importNames: ['CreatedAt', 'UpdatedAt', 'DeletedAt', 'Comment', 'Unique'],
+      importNames: ['CreatedAt', 'UpdatedAt', 'DeletedAt', 'Comment', 'Unique', 'DataType'],
       message: 'Forbidden decorator',
     }
   ],
@@ -43,6 +45,7 @@ export default tseslint.config(
   ...tseslint.configs.stylisticTypeChecked,
   prettier,
   {
+    files: ['src/**/*.ts'],
     languageOptions: {
       parserOptions: {
         projectService: true,
@@ -52,6 +55,7 @@ export default tseslint.config(
     plugins: {
       sequelize: eslintSequelizePlugin,
       import: importPlugin,
+      'filename-rules': filenameRulesPlugin,
     },
     rules: {
       '@typescript-eslint/no-explicit-any': 'off',
@@ -60,7 +64,33 @@ export default tseslint.config(
       '@typescript-eslint/no-unsafe-assignment': 'off',
       '@typescript-eslint/no-unsafe-member-access': 'off',
       '@typescript-eslint/no-unsafe-call': 'off',
+      '@typescript-eslint/prefer-includes': 'error',
+      '@typescript-eslint/no-unnecessary-condition': 'error',
 
+      // Enforce lowercase kebab-case
+      'filename-rules/match': ['error', /^[a-z0-9-\.]+$/],
+
+      // There are some rare cases when if (a == null) is useful
+      // === is still preferred
+      'eqeqeq': ['error', 'always', { null: 'ignore' }],
+
+      // Default exports are only useful in *.model.ts files
+      'import/no-default-export': 'error',
+
+      'no-unneeded-ternary': 'error',
+      // !! is only allowed because TypeScript doesn't narrow the type when Boolean() is used
+      // Boolean() is still preferred in most cases
+      'no-implicit-coercion': ['error', { allow: ['!!'] }],
+
+      'no-restricted-imports': ['error', noRestrictedImportsConfig],
+      'no-restricted-syntax': [
+        'error',
+        // Disallow native TypeScript enums in favor of string literals (unions)
+        {
+          selector: 'TSEnumDeclaration',
+          message: 'Use string literals (unions) instead of enums',
+        },
+      ],
       'no-restricted-properties': [
         'warn',
         {
@@ -79,31 +109,31 @@ export default tseslint.config(
         }
       ],
 
-      'no-restricted-imports': ['error', noRestrictedImportsConfig],
-
-      'no-restricted-syntax': [
-        'error',
-        // Disallow native TypeScript enums in favor of string literals (unions)
-        {
-          selector: 'TSEnumDeclaration',
-          message: 'Use string literals (unions) instead of enums',
-        },
-      ],
-
-      // custom
       'sequelize/no-limit-or-order-in-associations': 'error',
-      'sequelize/require-allow-null-in-columns': 'error',
-      'sequelize/require-attributes-in-queries': 'error',
       'sequelize/require-limit-in-find-all': 'warn',
       'sequelize/require-required-in-associations': 'error',
       'sequelize/separate-not-required-in-associations': 'error',
+      'sequelize/validate-column-definition': 'error',
       'sequelize/validate-references-in-columns': 'error',
       'sequelize/validate-table-definition': 'error',
       'sequelize/validate-through-associations': 'error',
     }
   },
   {
-    files: ['**/*.ts'],
+    files: ['src/**/*.ts'],
+    ignores: ['**/*.model.ts'],
+    rules: {
+      'import/no-default-export': 'off',
+    }
+  },
+  {
+    files: ['**/*.model.ts'],
+    rules: {
+      'sequelize/require-infer-attributes-in-models': 'error',
+    }
+  },
+  {
+    files: ['src/**/*.ts'],
     ignores: ['**/*.controller.ts'],
     rules: {
       // Note: ESLint doesn't support combining warnings and errors in the same rule,

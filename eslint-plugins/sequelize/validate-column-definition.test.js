@@ -1,7 +1,7 @@
 import { ruleTester } from '../test/rule-tester.js';
 import { validateColumnDefinitionRule } from './validate-column-definition.js';
 
-ruleTester.run('validateColumnDefinitionRule', validateColumnDefinitionRule, {
+ruleTester.run('validate-column-definition', validateColumnDefinitionRule, {
   valid: [
     {
       code: `

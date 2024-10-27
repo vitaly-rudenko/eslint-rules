@@ -1,7 +1,7 @@
 import { ruleTester } from '../test/rule-tester.js';
-import { requireInferAttributesInModels } from './require-infer-attributes-in-models.js';
+import { requireInferAttributesInModelsRule } from './require-infer-attributes-in-models.js';
 
-ruleTester.run('require-infer-attributes-in-models', requireInferAttributesInModels, {
+ruleTester.run('require-infer-attributes-in-models', requireInferAttributesInModelsRule, {
   valid: [
     {
       code: `

@@ -4,7 +4,7 @@
  *
  * @type {import('eslint').Rule.RuleModule}
  */
-export const requireInferAttributesInModels = {
+export const requireInferAttributesInModelsRule = {
   meta: {
     type: 'problem',
     messages: {

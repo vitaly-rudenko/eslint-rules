@@ -1,7 +1,7 @@
 import { ruleTester } from '../test/rule-tester.js';
-import { validateTableDefinition } from './validate-table-definition.js';
+import { validateTableDefinitionRule } from './validate-table-definition.js';
 
-ruleTester.run('validateTableDefinition', validateTableDefinition, {
+ruleTester.run('validate-table-definition', validateTableDefinitionRule, {
   valid: [
     {
       code: `

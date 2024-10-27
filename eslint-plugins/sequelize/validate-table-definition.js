@@ -3,7 +3,7 @@
  *
  * @type {import('eslint').Rule.RuleModule}
  */
-export const validateTableDefinition = {
+export const validateTableDefinitionRule = {
   meta: {
     type: 'problem',
     schema: [],

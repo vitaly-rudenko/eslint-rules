@@ -1,5 +1,5 @@
 /**
- * Requires `tableName` and `underscored: true` to be specified in `@Table()`.
+ * Requires `tableName` and `underscored: true` to be specified in `@Table({ ... })`.
  *
  * @type {import('eslint').Rule.RuleModule}
  */
@@ -10,24 +10,46 @@ export const validateTableDefinition = {
     messages: {
       requireTableNameInTable: 'Missing `tableName` field in @Table() decorator',
       requireUnderscoredInTable: 'Missing `underscored: true` field in @Table() decorator',
+      requireOptions: '@Table() decorator requires configuration options',
     },
+    fixable: 'code',
   },
   create(context) {
     return {
-      ObjectExpression(node) {
-        const isInTableDecorator = node.parent.type === 'CallExpression'
-          && node.parent.callee.type === 'Identifier'
-          && node.parent.callee.name === 'Table'
-        if (!isInTableDecorator) return;
-
-        const hasTableName = node.properties.some(p => p.type === 'Property' && p.key.type === 'Identifier' && p.key.name === 'tableName')
-        if (!hasTableName) {
-          context.report({ node, messageId: 'requireTableNameInTable' });
+      CallExpression(node) {
+        if (node.callee.type !== 'Identifier' || node.callee.name !== 'Table') {
+          return;
         }
 
-        const hasUnderscoredTrue = node.properties.some(p => p.type === 'Property' && p.key.type === 'Identifier' && p.key.name === 'underscored' && p.value.value === true)
+        const [options] = node.arguments;
+        if (!options || options.type !== 'ObjectExpression') {
+          context.report({ node, messageId: 'requireOptions' });
+          return;
+        }
+
+        const hasTableName = options.properties.some(p => p.type === 'Property' && p.key.type === 'Identifier' && p.key.name === 'tableName');
+        if (!hasTableName) {
+          context.report({ node: options, messageId: 'requireTableNameInTable' });
+        }
+
+        const hasUnderscoredTrue = options.properties.some(p => p.type === 'Property' && p.key.type === 'Identifier' && p.key.name === 'underscored' && p.value.value === true);
         if (!hasUnderscoredTrue) {
-          context.report({ node, messageId: 'requireUnderscoredInTable' });
+          context.report({
+            node: options,
+            messageId: 'requireUnderscoredInTable',
+            fix(fixer) {
+              if (options.properties.length === 0) {
+                return fixer.replaceText(options, '{ underscored: true }');
+              }
+
+              const lastProperty = options.properties[options.properties.length - 1];
+              const textToInsert = context.sourceCode.getText(lastProperty).endsWith(',')
+                ? ' underscored: true,'
+                : ', underscored: true';
+
+              return fixer.insertTextAfter(lastProperty, textToInsert);
+            }
+          });
         }
       },
     };

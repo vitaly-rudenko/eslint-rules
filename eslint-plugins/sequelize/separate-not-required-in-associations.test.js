@@ -1,4 +1,4 @@
-import { ruleTester } from '../rule-tester.js';
+import { ruleTester } from '../test/rule-tester.js';
 import { separateNotRequiredInAssociationsRule } from './separate-not-required-in-associations.js';
 
 ruleTester.run('separate-not-required-in-associations', separateNotRequiredInAssociationsRule, {

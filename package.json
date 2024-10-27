@@ -12,7 +12,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "./test.sh"
+    "test": "node --import \"./eslint-plugins/test/setup.js\" --test \"./eslint-plugins/**/*.test.js\""
   },
   "dependencies": {
     "@eslint/eslintrc": "^3.1.0",

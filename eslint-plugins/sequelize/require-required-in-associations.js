@@ -16,8 +16,7 @@ export const requireRequiredInAssociationsRule = {
       description: 'Keep in mind, that `require` is implicitly `true` when `where` is set'
     },
     messages: {
-      requireRequiredInAssociation: 'Missing `required` field in association',
-      requireRequiredTrueInAssociationWithWhere: 'Must use `required: true` when `where` is specified in association'
+      requireRequiredInAssociation: 'Missing `required` field in association'
     },
   },
   create(context) {
@@ -34,19 +33,9 @@ export const requireRequiredInAssociationsRule = {
 
         const hasRequired = node.properties.some(p => p.type === 'Property' && p.key.type === 'Identifier' && p.key.name === 'required');
         if (!hasRequired) {
-          const hasWhere = node.properties.some(p => p.type === 'Property' && p.key.type === 'Identifier' && p.key.name === 'where');
-
-          const indent = ' '.repeat(modelProperty.loc.start.column)
-          const suggestion = hasWhere ? `,\n${indent}required: true` : `,\n${indent}required: false`
-          const fix = (fixer) => fixer.insertTextAfter(modelProperty, suggestion);
-
           context.report({
             node,
             messageId: 'requireRequiredInAssociation',
-            suggest: [
-              { desc: hasWhere ? 'Add `required: true`' : 'Add `required: false`', fix }
-            ],
-            fix,
           });
         }
       },

@@ -1,4 +1,4 @@
-import { ruleTester } from '../rule-tester.js';
+import { ruleTester } from '../test/rule-tester.js';
 import { requireAllowNullInColumnsRule } from './require-allow-null-in-columns.js';
 
 ruleTester.run('require-allow-null-in-columns', requireAllowNullInColumnsRule, {
@@ -7,7 +7,7 @@ ruleTester.run('require-allow-null-in-columns', requireAllowNullInColumnsRule, {
       code: `
         class User {
           @Column({ type: DataTypes.TEXT, allowNull: true })
-          name: string;
+          declare name: string;
         }
       `,
     },
@@ -15,7 +15,7 @@ ruleTester.run('require-allow-null-in-columns', requireAllowNullInColumnsRule, {
       code: `
         class User {
           @Column({ type: DataTypes.TEXT, allowNull: false })
-          name: string;
+          declare name: string;
         }
       `,
     },
@@ -25,7 +25,7 @@ ruleTester.run('require-allow-null-in-columns', requireAllowNullInColumnsRule, {
       code: `
         class User {
           @Column({ type: DataTypes.TEXT })
-          name: string;
+          declare name: string;
         }
       `,
       errors: [

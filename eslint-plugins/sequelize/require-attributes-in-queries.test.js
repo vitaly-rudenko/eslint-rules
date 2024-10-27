@@ -1,4 +1,4 @@
-import { ruleTester } from '../rule-tester.js';
+import { ruleTester } from '../test/rule-tester.js';
 import { requireAttributesInQueriesRule } from './require-attributes-in-queries.js';
 
 ruleTester.run('require-attributes-in-queries', requireAttributesInQueriesRule, {

@@ -12,7 +12,7 @@ const noRestrictedImportsConfig = {
     // Avoid accidentally importing from `sequelize`
     {
       name: 'sequelize',
-      importNames: ['BelongsToMany', 'BelongsTo', 'HasMany', 'HasOne'],
+      importNames: ['BelongsToMany', 'BelongsTo', 'HasMany', 'HasOne', 'Model'],
       message: 'Import from `sequelize-typescript` instead',
     },
     // @CreatedAt, @UpdatedAt and @DeletedAt are confusing and produce unexpected column names

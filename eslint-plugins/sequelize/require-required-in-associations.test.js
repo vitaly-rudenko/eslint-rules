@@ -33,6 +33,11 @@ ruleTester.run('require-required-in-associations', requireRequiredInAssociations
           include: [{ model: ProfileModel }]
         })
       `,
+      output: `
+        await UserModel.findAll({
+          include: [{ model: ProfileModel, required: false }]
+        })
+      `,
       errors: [
         {
           messageId: 'requireRequiredInAssociation',
@@ -43,6 +48,11 @@ ruleTester.run('require-required-in-associations', requireRequiredInAssociations
       code: `
         await UserModel.findOne({
           include: [{ model: ProfileModel, where: { id: 'test' } }]
+        })
+      `,
+      output: `
+        await UserModel.findOne({
+          include: [{ model: ProfileModel, where: { id: 'test' }, required: true }]
         })
       `,
       errors: [
@@ -59,6 +69,13 @@ ruleTester.run('require-required-in-associations', requireRequiredInAssociations
           }]
         })
       `,
+      output: `
+        await UserModel.findAll({
+          include: [{
+            model: ProfileModel, required: false
+          }]
+        })
+      `,
       errors: [
         {
           messageId: 'requireRequiredInAssociation',
@@ -71,6 +88,14 @@ ruleTester.run('require-required-in-associations', requireRequiredInAssociations
           include: [{
             model: ProfileModel,
             where: { id: 'test' }
+          }]
+        })
+      `,
+      output: `
+        await UserModel.findOne({
+          include: [{
+            model: ProfileModel,
+            where: { id: 'test' }, required: true
           }]
         })
       `,

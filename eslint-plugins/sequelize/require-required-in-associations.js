@@ -33,9 +33,18 @@ export const requireRequiredInAssociationsRule = {
 
         const hasRequired = node.properties.some(p => p.type === 'Property' && p.key.type === 'Identifier' && p.key.name === 'required');
         if (!hasRequired) {
+          const hasWhere = node.properties.some(p => p.type === 'Property' && p.key.type === 'Identifier' && p.key.name === 'where');
+
           context.report({
             node,
             messageId: 'requireRequiredInAssociation',
+            fix(fixer) {
+              const lastProperty = node.properties[node.properties.length - 1];
+              const comma = context.sourceCode.getText(lastProperty).endsWith(',') ? ' ' : ', ';
+              const requiredText = hasWhere ? 'required: true' : 'required: false';
+
+              return fixer.insertTextAfter(lastProperty, comma + requiredText);
+            }
           });
         }
       },

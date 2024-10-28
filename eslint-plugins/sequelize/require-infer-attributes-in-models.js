@@ -10,7 +10,7 @@ export const requireInferAttributesInModelsRule = {
   meta: {
     type: 'problem',
     messages: {
-      missingInferAttributesInModel: 'Use InferAttributes & InferCreationAttributes in Sequelize model definition'
+      missingInferAttributesInModel: 'Sequelize models have to be defined with `Model<InferAttributes<...>, InferCreationAttributes<...>>`'
     },
     schema: [],
   },

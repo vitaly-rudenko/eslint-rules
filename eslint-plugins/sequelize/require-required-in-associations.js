@@ -12,10 +12,10 @@ export const requireRequiredInAssociationsRule = {
     fixable: 'code',
     schema: [],
     docs: {
-      description: 'Keep in mind, that `require` is implicitly `true` when `where` is set'
+      description: 'Keep in mind, that associations with `where` clause have `required: true` by default'
     },
     messages: {
-      requireRequiredInAssociation: 'Missing `required` field in association'
+      requireRequiredInAssociation: 'Explicitly add `{{suggestion}}` to the association'
     },
   },
   create(context) {
@@ -33,16 +33,19 @@ export const requireRequiredInAssociationsRule = {
         const hasRequired = node.properties.some(p => p.type === 'Property' && p.key.type === 'Identifier' && p.key.name === 'required');
         if (!hasRequired) {
           const hasWhere = node.properties.some(p => p.type === 'Property' && p.key.type === 'Identifier' && p.key.name === 'where');
+          const suggestion = hasWhere ? 'required: true' : 'required: false';
 
           context.report({
             node,
             messageId: 'requireRequiredInAssociation',
+            data: {
+              suggestion,
+            },
             fix(fixer) {
               const lastProperty = node.properties[node.properties.length - 1];
               const comma = context.sourceCode.getText(lastProperty).endsWith(',') ? ' ' : ', ';
-              const requiredText = hasWhere ? 'required: true' : 'required: false';
 
-              return fixer.insertTextAfter(lastProperty, comma + requiredText);
+              return fixer.insertTextAfter(lastProperty, comma + suggestion);
             }
           });
         }

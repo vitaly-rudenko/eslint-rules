@@ -1,5 +1,5 @@
 /**
- * Do not allow using `limit` or `order` in associations unless `separate: true` is specified.
+ * Do not allow using `limit` or `order` in associations unless `separate: true` is set.
  * Reason: `order` is completely ignored by Sequelize, while `limit` produces invalid query.
  * 
  * Check is only preformed in `include: [...]` arrays, in objects where `model` is specified.
@@ -11,7 +11,7 @@ export const noLimitOrOrderInAssociationsRule = {
     type: 'problem',
     schema: [],
     messages: {
-      noLimitOrOrderInAssociation: 'Cannot use `order` or `limit` in associations unless `separate: true` is specified',
+      noLimitOrOrderInAssociation: 'Option `{{option}}` is not supported in associations with `separate: true`',
     },
   },
   create(context) {
@@ -29,10 +29,16 @@ export const noLimitOrOrderInAssociationsRule = {
         const hasSeparateTrue = node.properties.some(p => p.type === 'Property' && p.key.type === 'Identifier' && p.key.name === 'separate' && p.value.value === true);
         if (hasSeparateTrue) return;
 
-        const hasPaginationOrOrder = node.properties.some(p => p.type === 'Property' && p.key.type === 'Identifier' && ['limit', 'offset', 'order'].includes(p.key.name));
-        if (!hasPaginationOrOrder) return;
+        const limitOrOrderProperty = node.properties.find(p => p.type === 'Property' && p.key.type === 'Identifier' && ['limit', 'offset', 'order'].includes(p.key.name));
+        if (!limitOrOrderProperty) return;
 
-        context.report({ node, messageId: 'noLimitOrOrderInAssociation' });
+        context.report({
+          node,
+          messageId: 'noLimitOrOrderInAssociation',
+          data: {
+            option: limitOrOrderProperty.key.name,
+          }
+        });
       },
     };
   },

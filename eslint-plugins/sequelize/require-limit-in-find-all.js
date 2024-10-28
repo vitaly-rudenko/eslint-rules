@@ -12,7 +12,7 @@ export const requireLimitInFindAllRule = {
       description: 'Keep in mind, that setting `limit` automatically sets `subQuery: true`'
     },
     messages: {
-      requireLimitInFindAll: 'Missing `limit` field in findAll() method',
+      requireLimitInFindAll: 'Consider adding `limit` option to the findAll() method',
     },
   },
   create(context) {

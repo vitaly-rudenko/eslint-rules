@@ -15,8 +15,8 @@ export const validateSeparateInAssociationsRule = {
     fixable: 'code',
     schema: [],
     messages: {
-      invalidSeparateInRequiredAssociation: 'Cannot use `required: true` with `separate: true` in association',
-      missingSeparateInNonRequiredAssociation: 'Cannot use `required: true` with `separate: true` in association',
+      invalidSeparateInRequiredAssociation: 'Option `separate: true` is not supported in associations with `required: true`',
+      missingSeparateInNonRequiredAssociation: 'Explicitly add `separate: false` field to the association',
     },
   },
   create(context) {

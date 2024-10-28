@@ -8,9 +8,9 @@ export const validateTableDefinitionRule = {
     type: 'problem',
     schema: [],
     messages: {
-      requireTableNameInTable: 'Missing `tableName` field in @Table() decorator',
-      requireUnderscoredInTable: 'Missing `underscored: true` field in @Table() decorator',
-      requireOptions: '@Table() decorator requires configuration options',
+      requireTableNameInTable: 'Missing `tableName` option in the @Table() decorator',
+      requireUnderscoredInTable: 'Missing `underscored: true` option in the @Table() decorator',
+      requireOptions: 'Missing options in the @Table() decorator',
     },
     fixable: 'code',
   },

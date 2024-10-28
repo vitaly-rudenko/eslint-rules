@@ -13,8 +13,8 @@ export const requireAttributesInQueriesRule = {
     type: 'problem',
     schema: [],
     messages: {
-      requireAttributesInFindMethod: 'Missing `attributes` field in findAll() or findOne() method',
-      requireAttributesInAssociation: 'Missing `attributes` field in association',
+      requireAttributesInFindMethod: 'Missing `attributes: [...]` option in the {{method}}() method',
+      requireAttributesInAssociation: 'Missing `attributes: [...]` option in the association',
     },
   },
   create(context) {
@@ -32,7 +32,13 @@ export const requireAttributesInQueriesRule = {
         const hasAttributes = options.properties.some(p => p.type === 'Property' && p.key.type === 'Identifier' && p.key.name === 'attributes');
         if (hasAttributes) return;
 
-        context.report({ node, messageId: 'requireAttributesInFindMethod' });
+        context.report({
+          node,
+          messageId: 'requireAttributesInFindMethod',
+          data: {
+            method: node.callee.property.name,
+          },
+        });
       },
       // In objects
       ObjectExpression(node) {

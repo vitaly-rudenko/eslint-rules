@@ -1,4 +1,5 @@
 import { noLimitOrOrderInAssociationsRule } from './no-limit-or-order-in-associations.js';
+import { requireAttributesInQueriesRule } from './require-attributes-in-queries.js';
 import { requireInferAttributesInModelsRule } from './require-infer-attributes-in-models.js';
 import { requireLimitInFindAllRule } from './require-limit-in-find-all.js';
 import { requireRequiredInAssociationsRule } from './require-required-in-associations.js';
@@ -11,6 +12,7 @@ import { validateThroughAssociationsRule } from './validate-through-associations
 export const eslintSequelizePlugin = {
   rules: {
     'no-limit-or-order-in-associations': noLimitOrOrderInAssociationsRule,
+    'require-attributes-in-queries': requireAttributesInQueriesRule,
     'require-infer-attributes-in-models': requireInferAttributesInModelsRule,
     'require-limit-in-find-all': requireLimitInFindAllRule,
     'require-required-in-associations': requireRequiredInAssociationsRule,

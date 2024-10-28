@@ -9,7 +9,7 @@ export const validateReferencesInColumnsRule = {
     type: 'problem',
     schema: [],
     messages: {
-      requireReferencesInColumn: 'Missing `references`, `onUpdate` or `onDelete` field in @Column() decorator',
+      requireReferencesInColumn: 'Foreign key column requires all these options to be set: `references`, `onUpdate` and `onDelete`',
     },
   },
   create(context) {

@@ -14,9 +14,9 @@ export const validateThroughAssociationsRule = {
     type: 'problem',
     schema: [],
     messages: {
-      requireThroughAs: 'Missing `through.as` field in association',
-      requireThroughAttributes: 'Missing `through.attributes` field in association',
-      requireThroughAttributesNotEmpty: 'Field `through.attributes` must not be empty in association',
+      requireThroughAs: 'Missing `through.as` option in the association',
+      requireThroughAttributes: 'Missing `through.attributes` option in the association',
+      requireThroughAttributesNotEmpty: 'Option `through.attributes` must not be empty in the associations',
     },
   },
   create(context) {

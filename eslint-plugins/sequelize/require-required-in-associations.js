@@ -28,8 +28,8 @@ export const requireRequiredInAssociationsRule = {
           && node.parent.parent.key.name === 'include'
         if (!isInIncludeArray) return;
 
-        const modelProperty = node.properties.find(p => p.type === 'Property' && p.key.type === 'Identifier' && p.key.name === 'model');
-        if (!modelProperty) return;
+        const hasModel = node.properties.some(p => p.type === 'Property' && p.key.type === 'Identifier' && p.key.name === 'model');
+        if (!hasModel) return;
 
         const hasRequired = node.properties.some(p => p.type === 'Property' && p.key.type === 'Identifier' && p.key.name === 'required');
         if (!hasRequired) {

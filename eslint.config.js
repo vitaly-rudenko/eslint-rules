@@ -110,11 +110,13 @@ export default tseslint.config(
       ],
 
       'sequelize/no-limit-or-order-in-associations': 'error',
+      'sequelize/require-attributes-in-queries': 'error',
+      'sequelize/require-infer-attributes-in-models': 'error',
       'sequelize/require-limit-in-find-all': 'warn',
       'sequelize/require-required-in-associations': 'error',
-      'sequelize/separate-not-required-in-associations': 'error',
       'sequelize/validate-column-definition': 'error',
       'sequelize/validate-references-in-columns': 'error',
+      'sequelize/validate-separate-in-associations': 'error',
       'sequelize/validate-table-definition': 'error',
       'sequelize/validate-through-associations': 'error',
     }

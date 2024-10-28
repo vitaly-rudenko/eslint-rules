@@ -10,7 +10,6 @@ export const requireRequiredInAssociationsRule = {
   meta: {
     type: 'problem',
     fixable: 'code',
-    hasSuggestions: true,
     schema: [],
     docs: {
       description: 'Keep in mind, that `require` is implicitly `true` when `where` is set'

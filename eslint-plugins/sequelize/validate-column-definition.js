@@ -11,7 +11,7 @@ export const validateColumnDefinitionRule = {
     type: 'problem',
     schema: [],
     messages: {
-      requireAllowNullInColumn: 'Explicitly add `allowNull: null` option to the @Column() decorator',
+      requireAllowNullInColumn: 'Explicitly add `allowNull: false` option to the @Column() decorator',
       requireTypeInColumn: 'Missing `type` option in the @Column() decorator',
       requireOptions: 'Missing options in the @Column() decorator',
     },
